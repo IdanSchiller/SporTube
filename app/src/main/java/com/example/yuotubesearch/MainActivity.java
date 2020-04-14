@@ -65,10 +65,10 @@ public class MainActivity extends AppCompatActivity {
 
 
         // show The Image in a ImageView
-        new DownloadImageTask((ImageView) findViewById(R.id.imageViewTest))
+       // new DownloadImageTask((ImageView) findViewById(R.id.imageViewTest))
                // .doInBackground("http://java.sogeti.nl/JavaBlog/wp-content/uploads/2009/04/android_icon_256.png");
 
-                .execute("https://www.freedigitalphotos.net/images/previews/duckling-10087357.jpg");
+//                .execute("https://www.freedigitalphotos.net/images/previews/duckling-10087357.jpg");
 
 //     //   public void onClick(View v) {
 //            startActivity(new Intent(this, IndexActivity.class));
@@ -77,7 +77,9 @@ public class MainActivity extends AppCompatActivity {
 //        }
 
         searchView = findViewById(R.id.searchView);
-        /*
+        searchResultsList = findViewById(R.id.searchResultListView);
+
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -94,36 +96,33 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        searchResultsList = findViewById(R.id.searchResultListView);
 
-
-        */
     }
-    public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-        ImageView imageViewTest;
-
-        public DownloadImageTask(ImageView imageViewTest) {
-            this.imageViewTest = imageViewTest;
-        }
-
-        protected Bitmap doInBackground(String... urls) {
-            System.out.println("INSIDE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            String urldisplay = urls[0];
-            Bitmap mIcon11 = null;
-            try {
-                InputStream in = new java.net.URL(urldisplay).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
-            } catch (Exception e) {
-//                    Log.e("Error", e.getMessage());
-                e.printStackTrace();
-            }
-           // onPostExecute(mIcon11);
-            return mIcon11;
-        }
-
-        protected void onPostExecute(Bitmap result) {
-            imageViewTest.setImageBitmap(result);
-        }
-    }
+//    public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+//        ImageView imageViewTest;
+//
+//        public DownloadImageTask(ImageView imageViewTest) {
+//            this.imageViewTest = imageViewTest;
+//        }
+//
+//        protected Bitmap doInBackground(String... urls) {
+//            System.out.println("INSIDE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+//            String urldisplay = urls[0];
+//            Bitmap mIcon11 = null;
+//            try {
+//                InputStream in = new java.net.URL(urldisplay).openStream();
+//                mIcon11 = BitmapFactory.decodeStream(in);
+//            } catch (Exception e) {
+////                    Log.e("Error", e.getMessage());
+//                e.printStackTrace();
+//            }
+//           // onPostExecute(mIcon11);
+//            return mIcon11;
+//        }
+//
+//        protected void onPostExecute(Bitmap result) {
+//            imageViewTest.setImageBitmap(result);
+//        }
+//    }
 
 }

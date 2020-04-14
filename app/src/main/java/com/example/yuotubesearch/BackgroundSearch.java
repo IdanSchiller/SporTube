@@ -1,34 +1,32 @@
 package com.example.yuotubesearch;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.services.youtube.YouTube;
-import androidx.appcompat.app.AppCompatActivity;
 
-import android.os.Bundle;
-import android.util.Log;
+import android.util.Pair;
 import android.widget.ArrayAdapter;
-import android.widget.TextView;
 
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestInitializer;
-import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.ResourceId;
 import com.google.api.services.youtube.model.SearchListResponse;
 import com.google.api.services.youtube.model.SearchResult;
 import com.google.api.services.youtube.model.Thumbnail;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class BackgroundSearch extends AsyncTask<Void, Void, List<SearchResult>> {
-    private static final long NUMBER_OF_VIDEOS_RETURNED  = 25;
+public class BackgroundSearch extends AsyncTask<Void, Void, Pair<List<SearchResult>,ArrayList<Bitmap>>> {
+    private static final long NUMBER_OF_VIDEOS_RETURNED  = 5;
     private MainActivity mainActivity;
     private String query;
 
@@ -39,7 +37,7 @@ public class BackgroundSearch extends AsyncTask<Void, Void, List<SearchResult>> 
 
 
     @Override
-    public List<SearchResult> doInBackground(Void... params) {
+    public  Pair<List<SearchResult>,ArrayList<Bitmap>> doInBackground(Void... params) {
 
             try {
                 YouTube youtube = new YouTube.Builder(new NetHttpTransport(), new JacksonFactory(), new HttpRequestInitializer() {
@@ -57,10 +55,25 @@ public class BackgroundSearch extends AsyncTask<Void, Void, List<SearchResult>> 
                 // Call the API and print results.
                 SearchListResponse searchResponse = search.execute();
                 List<SearchResult> searchResultList = searchResponse.getItems();
-                if (searchResultList != null) {
+                ArrayList<Bitmap> bitmapList = new ArrayList<>();
+                for (SearchResult result : searchResultList) {
+                    String url = result.getSnippet().getThumbnails().getDefault().getUrl();
+                    Bitmap bitmap = null;
+                    try {
+                        InputStream in = new java.net.URL(url).openStream();
+                        bitmap = BitmapFactory.decodeStream(in);
+                    } catch (Exception e) {
+                        System.out.println(e+"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                        e.printStackTrace();
+                    }
+                    bitmapList.add(bitmap);
+                }
+                Pair<List<SearchResult>,ArrayList<Bitmap>> result = new Pair<>(searchResultList,bitmapList);
+
+                    if (searchResultList != null) {
                     System.out.println("FINISHED!!!!!!!!!!!");
                     prettyPrint(searchResultList.iterator(), query);
-                    return searchResultList;
+                    return result;
                 }
             } catch (GoogleJsonResponseException e) {
                 System.err.println("There was a service error: " + e.getDetails().getCode() + " : "
@@ -75,16 +88,16 @@ public class BackgroundSearch extends AsyncTask<Void, Void, List<SearchResult>> 
             return null;
         }
 
-    protected void onPostExecute(List<SearchResult> resultList) {
+    protected void onPostExecute(Pair<List<SearchResult>,ArrayList<Bitmap>> result) {
         ArrayList<String> nameList = new ArrayList<>();
         ArrayList<String> imageURLList = new ArrayList<>();
-        for (SearchResult result : resultList){
-            nameList.add(result.getSnippet().getTitle());
-            imageURLList.add(result.getSnippet().getThumbnails().getDefault().getUrl());
+        for (SearchResult videoRes : result.first){
+            nameList.add(videoRes.getSnippet().getTitle());
+            imageURLList.add(videoRes.getSnippet().getThumbnails().getDefault().getUrl());
         }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(mainActivity, R.layout.activity_list,R.id.textViewForSearch, nameList);
-        ArrayAdapter<String> adapter2 = new OurListAdapter(mainActivity,R.layout.activity_list,R.id.textViewForSearch,nameList,imageURLList);
+       // ArrayAdapter<String> adapter = new ArrayAdapter<String>(mainActivity, R.layout.activity_list,R.id.textViewForSearch, nameList);
+        ArrayAdapter<String> adapter2 = new OurListAdapter(mainActivity,R.layout.activity_list,R.id.textViewForSearch,nameList,imageURLList, result.second);
         mainActivity.setSearchResultsList(adapter2);
         //mainActivity.changeTextView("Success!");
     }
