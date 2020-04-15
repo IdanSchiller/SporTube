@@ -20,10 +20,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/videoImageView"
-        android:paddingLeft="10dp"
-        android:textColor="#3399FF"
-        android:textSize="14dp"
+        android:paddingLeft="12dp"
+        android:textSize="17dp"
         android:text="TextView"
+        android:textColor="#000000"
         tools:layout_editor_absoluteY="319dp" />
 
 
