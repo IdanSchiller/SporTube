@@ -1,5 +1,6 @@
 package com.example.yuotubesearch;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -10,6 +11,7 @@ import com.google.api.services.youtube.YouTube;
 
 import android.util.Pair;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestInitializer;
@@ -27,12 +29,17 @@ import java.util.List;
 
 public class BackgroundSearch extends AsyncTask<Void, Void, Pair<List<SearchResult>,ArrayList<Bitmap>>> {
     private static final long NUMBER_OF_VIDEOS_RETURNED  = 5;
-    private MainActivity mainActivity;
+    private Context mainActivity;
     private String query;
+    private ListView searchResultsListView;
+    private SearchFragment searchFragment;
 
-    public BackgroundSearch(MainActivity mainActivity,String query) {
+
+    public BackgroundSearch(Context mainActivity,String query,ListView searchResultsListView,SearchFragment searchFragment) {
         this.mainActivity = mainActivity;
         this.query = query;
+        this.searchResultsListView=searchResultsListView;
+        this.searchFragment=searchFragment;
     }
 
 
@@ -95,10 +102,11 @@ public class BackgroundSearch extends AsyncTask<Void, Void, Pair<List<SearchResu
             nameList.add(videoRes.getSnippet().getTitle());
             imageURLList.add(videoRes.getSnippet().getThumbnails().getDefault().getUrl());
         }
-
        // ArrayAdapter<String> adapter = new ArrayAdapter<String>(mainActivity, R.layout.activity_list,R.id.textViewForSearch, nameList);
         ArrayAdapter<String> adapter2 = new OurListAdapter(mainActivity,R.layout.activity_list,R.id.textViewForSearch,nameList,imageURLList, result.second);
-        mainActivity.setSearchResultsList(adapter2);
+        searchFragment.setListAdapter(adapter2);
+//        searchResultsListView.setAdapter(adapter2);
+       // mainActivity.setSearchResultsList(adapter2);
         //mainActivity.changeTextView("Success!");
     }
 

@@ -46,10 +46,10 @@ public class MainActivity extends AppCompatActivity {
         this.textView.setText(newText);
     }
 
-    public void searchYouTube(String query) {
-        backgroundSearch = new BackgroundSearch(this, query);
-        backgroundSearch.execute();
-    }
+//    public void searchYouTube(String query) {
+//        backgroundSearch = new BackgroundSearch(this, query);
+//        backgroundSearch.execute();
+//    }
 
 
     @SuppressLint("WrongThread")
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //setContentView(R.layout.activity);
-
+        // SearchFragment searchFragment = new SearchFragment(this);
 //        imageViewTest = findViewById(R.id.imageViewTest);
 //        try {
 //            URL url = new URL("https://www.freedigitalphotos.net/images/previews/duckling-10087357.jpg");
@@ -84,8 +84,8 @@ public class MainActivity extends AppCompatActivity {
 //
 //        }
 
-        searchView = findViewById(R.id.searchView);
-        searchResultsList = findViewById(R.id.searchResultListView);
+//        searchView = findViewById(R.id.searchView);
+//        searchResultsList = findViewById(R.id.searchResultListView);
 
         tabLayout =  findViewById(R.id.tabLayout);
         viewPager = (ViewPager) findViewById(R.id.viewPager);
@@ -120,18 +120,18 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                searchYouTube(query);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                searchYouTube(query);
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                return false;
+//            }
+//        });
 
 
 

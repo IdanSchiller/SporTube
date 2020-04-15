@@ -12,7 +12,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 public class TabLayoutAdapter extends FragmentPagerAdapter {
 
-        private Context myContext;
+        private MainActivity context;
         int totalTabs;
 
 //        public TabLayoutAdapter(Context context, FragmentManager fm, int totalTabs) {
@@ -24,6 +24,7 @@ public class TabLayoutAdapter extends FragmentPagerAdapter {
     public TabLayoutAdapter(MainActivity context, androidx.fragment.app.FragmentManager supportFragmentManager, int tabCount) {
         super(supportFragmentManager);
         totalTabs=tabCount;
+        this.context=context;
     }
 
     // this is for fragment tabs
@@ -31,7 +32,7 @@ public class TabLayoutAdapter extends FragmentPagerAdapter {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    HomeFragment homeFragment = new HomeFragment();
+                    SearchFragment homeFragment = new SearchFragment(context);
                     return homeFragment;
                 case 1:
                     SportFragment sportFragment = new SportFragment();
