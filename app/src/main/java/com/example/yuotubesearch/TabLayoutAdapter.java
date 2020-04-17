@@ -32,11 +32,13 @@ public class TabLayoutAdapter extends FragmentPagerAdapter {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    SearchFragment homeFragment = new SearchFragment(context);
-                    return homeFragment;
-                case 1:
                     SportFragment sportFragment = new SportFragment();
+
                     return sportFragment;
+                case 1:
+                    SearchFragment searchFragment = new SearchFragment(context);
+
+                    return searchFragment;
                 case 2:
                     MovieFragment movieFragment = new MovieFragment();
                     return movieFragment;

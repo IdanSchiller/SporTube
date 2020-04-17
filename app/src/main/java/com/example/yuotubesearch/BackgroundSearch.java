@@ -55,6 +55,7 @@ public class BackgroundSearch extends AsyncTask<Void, Void, Pair<List<SearchResu
                 YouTube.Search.List search = youtube.search().list("id,snippet");
                 search.setKey(youTubeConfig.API_KEY);
                 search.setQ(query);
+                search.setVideoDuration("short");
                 search.setType("video");
                // search.setFields("items(id/kind,id/videoId,snippet/title,snippet/publishedAt,snippet/thumbnails/default/url),nextPageToken");
                 search.setMaxResults(NUMBER_OF_VIDEOS_RETURNED);

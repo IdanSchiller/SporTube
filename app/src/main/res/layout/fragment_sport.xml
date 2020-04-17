@@ -9,7 +9,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"/>
-<!--        android:text="Sport"/>-->
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="224dp"
+        android:layout_height="78dp"
+
+        android:layout_gravity="center"
+        android:text="Start Workout" />
+    <!--        android:text="Sport"/>-->
 <!--        @string/sport_fragment" />-->
 
 </FrameLayout>
